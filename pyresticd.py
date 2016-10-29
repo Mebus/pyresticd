@@ -29,8 +29,9 @@ def do_restic_backup(password):
 print('Restic Scheduler')
 print('-' * 30)
 print('Timeout: {}'.format(timeout))
-restic_password = getpass.getpass(
-    prompt='Please enter the restic encryption password: ')
+if not restic_password:
+    restic_password = getpass.getpass(
+        prompt='Please enter the restic encryption password: ')
 
 l = task.LoopingCall(do_restic_backup, restic_password)
 l.start(timeout)
