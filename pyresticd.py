@@ -9,7 +9,7 @@ from twisted.internet import reactor, task
 
 # Configuration
 
-timeout = 3600*24*3 # Period
+timeout = 3600 * 24 * 3  # Period
 restic_executable = 'restic'
 restic_args = ''
 restic_password = ''
