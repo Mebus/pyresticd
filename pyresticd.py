@@ -4,9 +4,8 @@
 import getpass
 import time
 from subprocess import Popen
-from twisted.internet import task
-from twisted.internet import reactor
 
+from twisted.internet import reactor, task
 
 # Configuration
 
