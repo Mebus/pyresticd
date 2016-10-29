@@ -1,32 +1,38 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os
 import getpass
 import time
-from twisted.internet import task
-from twisted.internet import reactor
+from subprocess import Popen
 
+from twisted.internet import reactor, task
 
 # Configuration
 
-timeout = 3600*24*3 # Period
-restic_command = "/home/mebus/restic" # your restic command here
+timeout = 3600 * 24 * 3  # Period
+restic_executable = 'restic'
+restic_args = ''
+restic_password = ''
 
 # Program
 
 
-def do_restic_backup():
+def do_restic_backup(password):
     print('Starting Backup at {}'.format(time.ctime()))
-    os.system(restic_command)
+    args = [restic_executable] + restic_args.split()
+    Popen(args, env={
+        'RESTIC_PASSWORD': password
+    })
+
 
 print('Restic Scheduler')
 print('-' * 30)
 print('Timeout: {}'.format(timeout))
-restic_password = getpass.getpass(prompt="Please enter the restic encryption password: ")
-os.environ["RESTIC_PASSWORD"] = restic_password
+if not restic_password:
+    restic_password = getpass.getpass(
+        prompt='Please enter the restic encryption password: ')
 
-l = task.LoopingCall(do_restic_backup)
+l = task.LoopingCall(do_restic_backup, restic_password)
 l.start(timeout)
 
 reactor.run()
