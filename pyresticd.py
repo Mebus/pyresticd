@@ -3,6 +3,7 @@
 
 import getpass
 import time
+import os
 from subprocess import Popen
 
 from twisted.internet import reactor, task
@@ -21,7 +22,8 @@ def do_restic_backup(password):
     print('Starting Backup at {}'.format(time.ctime()))
     args = [restic_executable] + restic_args.split()
     Popen(args, env={
-        'RESTIC_PASSWORD': password
+        'RESTIC_PASSWORD': password,
+        'PATH': os.environ['PATH'],
     })
 
 
