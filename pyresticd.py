@@ -20,6 +20,7 @@ config = configparser.ConfigParser()
 config.read("pyresticd.cfg")
 restic_command = config['pyresticd']['restic_command']
 backup_at = config['pyresticd']['backup_at']
+day_interval = config['pyresticd']['day_interval']
 
 # Program
 
@@ -72,7 +73,7 @@ if answer and answer[0].lower() == 'y':
 
 # Scheduling
 
-schedule.every().day.at(backup_at).do(do_restic_backup, restic_password)
+schedule.every(day_interval).day.at(backup_at).do(do_restic_backup, restic_password)
 
 while True:
     schedule.run_pending()

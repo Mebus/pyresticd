@@ -1,4 +1,5 @@
 [pyresticd]
 restic_command = /opt/restic/restic
 backup_at = 21:00
+day_interval = 3
 
