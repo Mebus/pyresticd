@@ -57,6 +57,7 @@ print('=' * 30)
 
 print("restic command: " + restic_command)
 print("backup at: " + backup_at)
+print("day interval: " + str(backup_at))
 
 print('-' * 30)
 
