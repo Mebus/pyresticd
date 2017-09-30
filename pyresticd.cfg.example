@@ -1,5 +1,14 @@
 [pyresticd]
 restic_command = /opt/restic/restic
+repo = /var/backup/restic-backups/something
 backup_at = 21:00
 day_interval = 3
 
+[restic]
+binary = /opt/restic/restic
+
+[cleanup]
+interval_days = 1
+interval_hours = 0
+interval_minutes = 5
+interval_seconds = 0
