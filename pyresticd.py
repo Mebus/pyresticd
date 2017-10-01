@@ -11,14 +11,12 @@ import syslog
 
 # Configuration
 
-restic_args = ''
 restic_password = ''
 
 # Load Configuration
 
 config = configparser.ConfigParser()
 config.read("pyresticd.cfg")
-restic_command = config['pyresticd']['restic_command']
 backup_at = config['pyresticd']['backup_at']
 day_interval = int(config['pyresticd']['day_interval'])
 
@@ -37,11 +35,14 @@ def do_restic_backup(password):
     # Log start
     logthis('Starting pyresticd Backup')
 
+    restic_args = "backup " + config['pyresticd']['src_dir'] + " --exclude excludes.txt"
+
     # run restic
-    args = [restic_command] + restic_args.split()
+    args = [config['restic']['binary']] + restic_args.split()
 
     ps = subprocess.Popen(args, env={
         'RESTIC_PASSWORD': password,
+        'RESTIC_REPOSITORY': config['pyresticd']['repo'],
         'PATH': os.environ['PATH'],
     })
 
@@ -54,8 +55,7 @@ def do_restic_backup(password):
 print('=' * 30)
 print('Restic Scheduler')
 print('=' * 30)
-
-print("restic command: " + restic_command)
+print("Repository: " + config['pyresticd']['repo'])
 print("backup at: " + backup_at)
 print("day interval: " + str(backup_at))
 
