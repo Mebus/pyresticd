@@ -20,6 +20,7 @@ Copy config file:
 
 <code>
 cp pyresticd.conf.exmaple pyresticd.conf
+cp excludes.txt.example excludes.txt
 </code>
 
 Edit pyresticd.conf
