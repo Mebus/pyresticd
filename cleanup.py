@@ -26,7 +26,7 @@ restic_password = ''
 config = configparser.ConfigParser()
 config.read("pyresticd.cfg")
 
-restic_args = "-r " + config['pyresticd']['repo'] + " snapshots --json"
+restic_args = "snapshots --json"
 
 backup_interval_allowed = timedelta(days=int(config['cleanup']['interval_days']),
                                     hours=int(config['cleanup']['interval_hours']),  
@@ -44,6 +44,7 @@ def snapshots_to_delete(password):
 
     ps = subprocess.Popen(args, env={
         'RESTIC_PASSWORD': password,
+        'RESTIC_REPOSITORY': config['pyresticd']['repo'],
         'PATH': os.environ['PATH'],
     },
     stdout=subprocess.PIPE,
