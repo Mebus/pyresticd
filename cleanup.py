@@ -49,7 +49,7 @@ def snapshots_to_delete(password):
     stdout=subprocess.PIPE,
     )
     
-    ps.wait()
+    #ps.wait()
 
     json_input = ps.stdout.read()
     json_parsed = json.loads(json_input)
