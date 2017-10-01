@@ -1,6 +1,6 @@
 [pyresticd]
-restic_command = /opt/restic/restic
 repo = /var/backup/restic-backups/something
+src_dir = /
 backup_at = 21:00
 day_interval = 3
 
