@@ -61,6 +61,9 @@ print("day interval: " + str(backup_at))
 
 print('-' * 30)
 
+if not restic_password and 'RESTIC_PASSWORD' in os.environ:
+    restic_password = os.environ['RESTIC_PASSWORD']
+
 if not restic_password:
     restic_password = getpass.getpass(
         prompt='Please enter the restic encryption password: ')
