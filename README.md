@@ -13,7 +13,7 @@ python3, pip3
 Install Python requirements:
 
 <code>
-pip3 install schedule
+pip3 install schedule python-dateutil pytz
 </code>
 
 Copy config file:
