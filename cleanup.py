@@ -98,7 +98,7 @@ def snapshots_to_delete(password):
 
 
 
-if not restic_password:
+if not restic_password and 'RESTIC_PASSWORD' in os.environ:
     restic_password = os.environ['RESTIC_PASSWORD']
 
 if not restic_password:
