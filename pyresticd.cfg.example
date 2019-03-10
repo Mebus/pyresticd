@@ -6,6 +6,7 @@ day_interval = 3
 
 [restic]
 binary = /opt/restic/restic
+cache = ~/.cache/restic
 
 [cleanup]
 interval_days = 1
