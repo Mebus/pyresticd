@@ -57,7 +57,7 @@ print('Restic Scheduler')
 print('=' * 30)
 print("Repository: " + config['pyresticd']['repo'])
 print("backup at: " + backup_at)
-print("day interval: " + str(backup_at))
+print("day interval: " + str(day_interval))
 
 print('-' * 30)
 
