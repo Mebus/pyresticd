@@ -41,6 +41,8 @@ def do_restic_backup(password):
     args = [config['restic']['binary']] + restic_args.split()
 
     ps = subprocess.Popen(args, env={
+        'B2_ACCOUNT_ID' : config['B2']['B2_ACCOUNT_ID'],
+        'B2_ACCOUNT_KEY' : config['B2']['B2_ACCOUNT_KEY'],
         'RESTIC_PASSWORD': password,
         'RESTIC_REPOSITORY': config['pyresticd']['repo'],
         'PATH': os.environ['PATH'],
