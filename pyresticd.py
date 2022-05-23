@@ -8,6 +8,8 @@ import schedule
 import configparser
 import subprocess
 import syslog
+import datetime
+import json
 
 # Configuration
 
@@ -50,9 +52,29 @@ def do_restic_backup(password):
 
     ps.wait()
 
+    print(ps.returncode)
+
     #Log finish
     logthis('Finished pyresticd Backup')
 
+    if config["infofile"]["enabled"]:
+
+        success = False
+        if ps.returncode == 0:
+            success = True
+
+        # write infofile
+        infofile = {
+                "backup_name": config["pyresticd"]["backup_name"],
+                "day_interval": config["pyresticd"]["day_interval"],
+                "when": datetime.datetime.utcnow().isoformat(),
+                "success": success
+        }
+
+        print(json.dumps(infofile))
+
+        with open(config["infofile"]["path"], 'w') as f:
+                json.dump(infofile, f)
 
 print('=' * 30)
 print('Restic Scheduler')
