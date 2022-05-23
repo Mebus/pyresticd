@@ -8,6 +8,10 @@ day_interval = 3
 binary = /opt/restic/restic
 cache = ~/.cache/restic
 
+[B2]
+B2_ACCOUNT_ID = xxx
+B2_ACCOUNT_KEY = yyy
+
 [cleanup]
 interval_days = 1
 interval_hours = 0
