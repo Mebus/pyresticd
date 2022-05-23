@@ -53,6 +53,19 @@ def do_prune(password):
 
     return run_restic_with_args(restic_args, password)
 
+def do_unlock(password):
+
+    # Log start
+    logthis("Starting pyresticd Unlock")
+
+    restic_args = (
+        " unlock "
+        + " --cache-dir "
+        + config["restic"]["cache"]
+    )
+
+    return run_restic_with_args(restic_args, password)
+
 def run_restic_with_args(restic_args, password):
     
     # run restic
@@ -95,6 +108,8 @@ if __name__ == "__main__":
     """
     run the cleanup
     """
+
+    #do_unlock(restic_password)
 
     # forget
     if do_cleanup(restic_password) == 0:
