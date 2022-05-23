@@ -27,8 +27,9 @@ def logthis(msg):
     print(msg)
     syslog.syslog(msg)
 
+
 def do_cleanup(password):
-    
+
     # Log start
     logthis("Starting pyresticd Cleanup")
 
@@ -40,34 +41,29 @@ def do_cleanup(password):
 
     return run_restic_with_args(restic_args, password)
 
+
 def do_prune(password):
-    
+
     # Log start
     logthis("Starting pyresticd Prune")
 
-    restic_args = (
-        " prune "
-        + " --cache-dir "
-        + config["restic"]["cache"]
-    )
+    restic_args = " prune " + " --cache-dir " + config["restic"]["cache"]
 
     return run_restic_with_args(restic_args, password)
+
 
 def do_unlock(password):
 
     # Log start
     logthis("Starting pyresticd Unlock")
 
-    restic_args = (
-        " unlock "
-        + " --cache-dir "
-        + config["restic"]["cache"]
-    )
+    restic_args = " unlock " + " --cache-dir " + config["restic"]["cache"]
 
     return run_restic_with_args(restic_args, password)
 
+
 def run_restic_with_args(restic_args, password):
-    
+
     # run restic
     args = [config["restic"]["binary"]] + restic_args.split()
 
@@ -89,6 +85,7 @@ def run_restic_with_args(restic_args, password):
 
     return ps.returncode
 
+
 if __name__ == "__main__":
 
     pm = PyresticDMonitor()
@@ -109,12 +106,10 @@ if __name__ == "__main__":
     run the cleanup
     """
 
-    #do_unlock(restic_password)
+    # do_unlock(restic_password)
 
     # forget
     if do_cleanup(restic_password) == 0:
 
         # prune if forget was ok
         do_prune(restic_password)
-
-
