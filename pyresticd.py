@@ -10,6 +10,7 @@ import subprocess
 import syslog
 import datetime
 import json
+from monitor.monitor import PyresticDMonitor
 
 # Configuration
 
@@ -90,34 +91,41 @@ def do_restic_backup(password):
             json.dump(infofile, f)
 
 
-print("=" * 30)
-print("Restic Scheduler")
-print("=" * 30)
-print("Repository: " + config["pyresticd"]["repo"])
-print("backup at: " + backup_at)
-print("day interval: " + str(day_interval))
+if __name__ == "__main__":
 
-print("-" * 30)
+    pm = PyresticDMonitor()
+    print(pm.ascii_art())
 
-if not restic_password and "RESTIC_PASSWORD" in os.environ:
-    restic_password = os.environ["RESTIC_PASSWORD"]
+    print("=" * 30)
+    print("Restic Scheduler")
+    print("=" * 30)
+    print("Repository: " + config["pyresticd"]["repo"])
+    print("backup at: " + backup_at)
+    print("day interval: " + str(day_interval))
 
-if not restic_password:
-    restic_password = getpass.getpass(
-        prompt="Please enter the restic encryption password: "
+    print("-" * 30)
+
+    if not restic_password and "RESTIC_PASSWORD" in os.environ:
+        restic_password = os.environ["RESTIC_PASSWORD"]
+
+    if not restic_password:
+        restic_password = getpass.getpass(
+            prompt="Please enter the restic encryption password: "
+        )
+        print("Password entered.")
+
+    # Immediate Backup
+
+    answer = input("Run a backup just now? [y/n]")
+    if answer and answer[0].lower() == "y":
+        do_restic_backup(restic_password)
+
+    # Scheduling
+
+    schedule.every(day_interval).days.at(backup_at).do(
+        do_restic_backup, restic_password
     )
-    print("Password entered.")
 
-# Immediate Backup
-
-answer = input("Run a backup just now? [y/n]")
-if answer and answer[0].lower() == "y":
-    do_restic_backup(restic_password)
-
-# Scheduling
-
-schedule.every(day_interval).days.at(backup_at).do(do_restic_backup, restic_password)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
