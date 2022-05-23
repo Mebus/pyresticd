@@ -43,7 +43,7 @@ def do_restic_backup(password):
     logthis("Starting pyresticd Backup")
 
     restic_args = (
-        "backup "
+        " --json backup "
         + config["pyresticd"]["src_dir"]
         + " --exclude-file excludes.txt --cache-dir "
         + config["restic"]["cache"]
