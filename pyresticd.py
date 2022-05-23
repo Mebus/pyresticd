@@ -22,6 +22,10 @@ config.read("pyresticd.cfg")
 backup_at = config["pyresticd"]["backup_at"]
 day_interval = int(config["pyresticd"]["day_interval"])
 
+# Constants
+
+infofile_api_version = "0.1.0-beta"
+
 # Program
 
 
@@ -73,16 +77,18 @@ def do_restic_backup(password):
 
         # write infofile
         infofile = {
-                "backup_name": config["pyresticd"]["backup_name"],
-                "day_interval": config["pyresticd"]["day_interval"],
-                "when": datetime.datetime.utcnow().isoformat(),
-                "success": success
+            "infofile_api_version": infofile_api_version,
+            "backup_name": config["pyresticd"]["backup_name"],
+            "day_interval": config["pyresticd"]["day_interval"],
+            "when": datetime.datetime.utcnow().isoformat(),
+            "success": success,
         }
 
         print(json.dumps(infofile))
 
-        with open(config["infofile"]["path"], 'w') as f:
-                json.dump(infofile, f)
+        with open(config["infofile"]["path"], "w") as f:
+            json.dump(infofile, f)
+
 
 print("=" * 30)
 print("Restic Scheduler")
