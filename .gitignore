@@ -1,3 +1,5 @@
 pyresticd.cfg
 excludes.txt
 .vscode/
+.coverage
+

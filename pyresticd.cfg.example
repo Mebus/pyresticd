@@ -4,6 +4,10 @@ src_dir = /
 backup_at = 21:00
 day_interval = 3
 
+[infofile]
+enabled = true
+path = /var/www/pyresticd_somerandomstring.json
+
 [restic]
 binary = /opt/restic/restic
 cache = ~/.cache/restic
