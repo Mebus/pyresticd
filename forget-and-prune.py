@@ -11,6 +11,7 @@ import syslog
 import datetime
 import json
 from monitor.monitor import PyresticDMonitor
+import argparse
 
 # Configuration
 restic_password = ""
@@ -48,6 +49,21 @@ def do_prune(password):
     logthis("Starting pyresticd Prune")
 
     restic_args = " prune " + " --cache-dir " + config["restic"]["cache"]
+
+    return run_restic_with_args(restic_args, password)
+
+
+def do_mount(password):
+
+    # Log start
+    logthis("Starting pyresticd Prune")
+
+    mountdir = os.path.join("/mnt", config["pyresticd"]["backup_name"])
+    os.mkdir(mountdir)
+
+    print("Mount to: %s" % mountdir)
+
+    restic_args = " mount  " + mountdir + " --cache-dir " + config["restic"]["cache"]
 
     return run_restic_with_args(restic_args, password)
 
@@ -106,10 +122,28 @@ if __name__ == "__main__":
     run the cleanup
     """
 
-    # do_unlock(restic_password)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--mount", help="mount the repo", action="store_true")
+    parser.add_argument("--unlock", help="unlock the repo", action="store_true")
+    parser.add_argument(
+        "--cleanup", help="forget & prune old backups", action="store_true"
+    )
+    args = parser.parse_args()
 
-    # forget
-    if do_cleanup(restic_password) == 0:
+    if args.mount:
+        do_mount(restic_password)
 
-        # prune if forget was ok
-        do_prune(restic_password)
+    elif args.unlock:
+
+        do_unlock(restic_password)
+
+    elif args.cleanup:
+
+        # forget
+        if do_cleanup(restic_password) == 0:
+
+            # prune if forget was ok
+            do_prune(restic_password)
+
+    else:
+        parser.print_help()
