@@ -32,10 +32,10 @@ class PyresticDMonitor:
         with urllib.request.urlopen(ho["url"]) as remote:
             data = json.loads(remote.read().decode())
             when = dateutil.parser.isoparse(data["when"])
-            time_delta = (datetime.datetime.utcnow() - when).days
+            time_delta = ((datetime.datetime.utcnow() - when).seconds) / 3600 / 24
 
             self.ascii += data["backup_name"] + "\n"
-            self.ascii += "%s days ago\n" % str(time_delta)
+            self.ascii += "%f days ago\n" % time_delta
             if data["success"] and (time_delta <= float(data["day_interval"])):
                 self.ascii += "OK\n"
             else:
