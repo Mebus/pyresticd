@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-from tkinter import W
 import urllib.request
 import json
 import datetime
