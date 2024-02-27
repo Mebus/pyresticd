@@ -11,6 +11,7 @@ import syslog
 import datetime
 import json
 from monitor.monitor import PyresticDMonitor
+from hostingde import HostingDe
 
 # Configuration
 
@@ -30,6 +31,19 @@ infofile_api_version = "0.1.0-beta"
 # Program
 
 
+def do_hostingde_check():
+
+    if config.has_option("hostingde", "enabled"):
+        if config["hostingde"].getboolean("enabled"):
+            print("The check for hosting.de free Nextcloud space is enabled.")
+            hde = HostingDe()
+            apikey = config["hostingde"]["apikey"]
+            checkres = hde.check_free_space_nextcloud(apikey)
+
+            return checkres["limitok"]
+    return True
+
+
 def logthis(msg):
 
     msg = msg + " at {}".format(time.ctime())
@@ -39,6 +53,10 @@ def logthis(msg):
 
 
 def do_restic_backup(password):
+
+    if not do_hostingde_check():
+        print("DECLINED: Not doing a backup because free space is not sufficient. Please free some space.")
+        return False
 
     # Log start
     logthis("Starting pyresticd Backup")

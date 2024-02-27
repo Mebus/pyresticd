@@ -1,4 +1,5 @@
 [pyresticd]
+backup_name = sometest
 repo = /var/backup/restic-backups/something
 src_dir = /
 backup_at = 21:00
@@ -21,3 +22,8 @@ interval_days = 1
 interval_hours = 0
 interval_minutes = 5
 interval_seconds = 0
+
+[hostingde]
+enabled = yes
+apikey = secrectapikeyhere
+
