@@ -24,6 +24,6 @@ interval_minutes = 5
 interval_seconds = 0
 
 [hostingde]
-enabled = yes
+enabled = no
 apikey = secrectapikeyhere
 
