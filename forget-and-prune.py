@@ -46,9 +46,19 @@ def do_cleanup(password):
 def do_prune(password):
 
     # Log start
-    logthis("Starting pyresticd Prune")
+    logthis("Starting pyresticd prune")
 
     restic_args = " prune " + " --cache-dir " + config["restic"]["cache"]
+
+    return run_restic_with_args(restic_args, password)
+
+
+def do_check(password):
+
+    # Log start
+    logthis("Starting pyresticd check")
+
+    restic_args = " check " + " --cache-dir " + config["restic"]["cache"]
 
     return run_restic_with_args(restic_args, password)
 
@@ -124,6 +134,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--mount", help="mount the repo", action="store_true")
+    parser.add_argument("--check", help="check the repo", action="store_true")
     parser.add_argument("--unlock", help="unlock the repo", action="store_true")
     parser.add_argument(
         "--cleanup", help="forget & prune old backups", action="store_true"
@@ -144,6 +155,10 @@ if __name__ == "__main__":
 
             # prune if forget was ok
             do_prune(restic_password)
+
+    elif args.check:
+
+        do_check(restic_password)
 
     else:
         parser.print_help()
